@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de QR Code Grátis</title>
+    <!-- Biblioteca gratuita para gerar QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #38bdf8;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 12px;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary);
+            color: #0f172a;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #qrcode {
+            margin: 20px auto;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            display: inline-block;
+            min-height: 160px;
+            min-width: 160px;
+        }
+
+        .donate-box {
+            margin-top: 24px;
+            padding: 16px;
+            background: #0f172a;
+            border-radius: 12px;
+            border: 1px dashed #334155;
+        }
+
+        .donate-box h3 {
+            font-size: 0.95rem;
+            color: #facc15;
+            margin-bottom: 6px;
+        }
+
+        .donate-box p {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .pix-key {
+            background: #1e293b;
+            padding: 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--primary);
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚡ QuickQR Express</h1>
+        <p>Gere QR Codes para links, chave Pix, Wi-Fi e redes sociais instantaneamente.</p>
+
+        <input type="text" id="qrText" placeholder="Cole aqui o seu link, texto ou chave Pix">
+        <button onclick="generateQR()">Gerar QR Code</button>
+
+        <div id="qrcode"></div>
+
+        <!-- Área de Doação Pix -->
+        <div class="donate-box">
+            <h3>☕ Apoie este projeto grátis</h3>
+            <p>Se esta ferramenta te ajudou, considera enviar qualquer valor no Pix para ajudar a manter o site no ar!</p>
+            <div class="pix-key">7113943d-2a2f-43b9-ad96-9dd1e064db66</div>
+        </div>
+    </div>
+
+    <script>
+        let qrcodeObj = null;
+
+        function generateQR() {
+            let text = document.getElementById('qrText').value.trim();
+            if (!text) {
+                alert('Digita um link ou texto primeiro!');
+                return;
+            }
+
+            let qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = "";
+
+            qrcodeObj = new QRCode(qrContainer, {
+                text: text,
+                width: 160,
+                height: 160,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
+</html>
