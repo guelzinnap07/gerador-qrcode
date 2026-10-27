@@ -150,28 +150,55 @@
         </div>
     </div>
 
-    <script>
         let qrcodeObj = null;
 
-        function generateQR() {
-            let text = document.getElementById('qrText').value.trim();
-            if (!text) {
-                alert('Digita um link ou texto primeiro!');
-                return;
+    function generateQR() {
+        let text = document.getElementById('qrText').value;
+        if (!text) {
+            alert('Digita um link ou texto primeiro!');
+            return;
+        }
+
+        let qrContainer = document.getElementById('qrcode');
+        qrContainer.innerHTML = "";
+
+        // Gera o QR Code
+        qrcodeObj = new QRCode(qrContainer, {
+            text: text,
+            width: 160,
+            height: 160,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        // Mostra o botão de download e configura a ação
+        setTimeout(function() {
+            let img = qrContainer.querySelector("img");
+            let canvas = qrContainer.querySelector("canvas");
+            let downloadBtn = document.getElementById('download-btn');
+            
+            let imageUrl = "";
+            if (img && img.src) {
+                imageUrl = img.src;
+            } else if (canvas) {
+                imageUrl = canvas.toDataURL("image/png");
             }
 
-            let qrContainer = document.getElementById('qrcode');
-            qrContainer.innerHTML = "";
-
-            qrcodeObj = new QRCode(qrContainer, {
-                text: text,
-                width: 160,
-                height: 160,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-        }
+            if (imageUrl) {
+                downloadBtn.style.display = 'inline-block';
+                downloadBtn.onclick = function() {
+                    let a = document.createElement('a');
+                    a.href = imageUrl;
+                    a.download = 'qrcode-webbox.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+            }
+        }, 300);
+    }
+    
     </script>
 </body>
 </html>
